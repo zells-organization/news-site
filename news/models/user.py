@@ -11,11 +11,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     birthdate = models.DateField(_('birth date'), null=True, blank=True)
-    date_created=models.DateTimeField(_('date created'), auto_now_add=True)
-    date_updated=models.DateTimeField(_('date updated'), auto_now=True)
+    
     is_superuser=models.BooleanField(_('superuser'), default=False)
     is_staff=models.BooleanField(_('staff'), default=False)
 
+    date_created=models.DateTimeField(_('date created'), auto_now_add=True)
+    date_updated=models.DateTimeField(_('date updated'), auto_now=True)
+    
     objects=UserManager()
 
     USERNAME_FIELD='email'
