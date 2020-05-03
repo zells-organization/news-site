@@ -1,9 +1,10 @@
 from django.http import HttpResponse
-from django.views import View
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from news.views.base_view import BaseView
 
 
-class MainView(View):
+class MainView(BaseView):
     template_name = 'main.html'
 
     def get(self, request):
