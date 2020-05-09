@@ -57,10 +57,11 @@
     {% for post in posts %}
         <p>Post {{ forloop.counter }}</p>
         <p>Author: {{ post.author }}</p>
+        <p>At: {{ post.date_created }}</p>
         <p>Text: {{ post.text }}</p>
         <p>Comments</p>
         {% for comment in post.comment_set.all %}
-            <p>{{ comment.author }}</p>
+            <p>{{ comment.author }} at {{ comment.date_updated }}</p>
             <p>{{ comment.text }}</p>
         {% endfor %}
         <p>End comments block</p>
