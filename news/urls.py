@@ -9,4 +9,5 @@ urlpatterns = [
     path('premoderation/', PremoderationView.as_view(), name='premoderation'),
     path('profile/', ProfileView.as_view(), name='profile'),
     path('registration/', RegistrationView.as_view(), name='registration'),
+    path('posts/', CreatePostView.as_view(), name='create-post')
 ]

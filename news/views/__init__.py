@@ -5,3 +5,4 @@ from .logout import LogoutView
 from .premoderation import PremoderationView
 from .profile import ProfileView
 from .registration import RegistrationView
+from .create_post import CreatePostView
