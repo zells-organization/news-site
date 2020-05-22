@@ -1,4 +1,5 @@
 {% load static %}
+{% load groupfilter %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +38,8 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'create-post' %}">Make a post</a>
+
                         <a class="dropdown-item" href="{% url 'premoderation' %}">Premoderation</a>
                         <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
                         <div class="dropdown-divider"></div>
@@ -50,9 +53,9 @@
 
 {% for post in posts %}
 <p>Post {{ forloop.counter }}</p>
-    <p>Author: {{ post.author }}</p>
-    <p>Text: {{ post.text }}</p>
-    <p>Posted: {{ post.is_approved }}</p>
+<p>Author: {{ post.author }}</p>
+<p>Text: {{ post.text }}</p>
+<p>Posted: {{ post.is_approved }}</p>
 <p>End post</p>
 {% endfor %}
 

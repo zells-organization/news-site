@@ -38,6 +38,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        <a class="dropdown-item" href="{% url 'create-post' %}">Make a post</a>
                         {% if request.user|group:"Editor" or request.user|group:"Admin" %}
                         <a class="dropdown-item" href="{% url 'premoderation' %}">Premoderation</a>
                         <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
