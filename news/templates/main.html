@@ -1,4 +1,5 @@
 {% load static %}
+{% load groupfilter %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,8 +38,10 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        {% if request.user|group:"Editor" or request.user|group:"Admin" %}
                         <a class="dropdown-item" href="{% url 'premoderation' %}">Premoderation</a>
                         <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
+                        {% endif %}
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </div>
@@ -54,20 +57,20 @@
 </div>
 
 
-    {% for post in posts %}
-        <p>Post {{ forloop.counter }}</p>
-        <p>Author: {{ post.author }}</p>
-        <p>At: {{ post.date_created }}</p>
-        <p>Text: {{ post.text }}</p>
-        <p>Comments</p>
-        {% for comment in post.comment_set.all %}
-            <p>{{ comment.author }} at {{ comment.date_updated }}</p>
-            <p>{{ comment.text }}</p>
-        {% endfor %}
-        <p>End comments block</p>
-        <p>End post</p>
-        <br>
-    {% endfor %}
+{% for post in posts %}
+<p>Post {{ forloop.counter }}</p>
+<p>Author: {{ post.author }}</p>
+<p>At: {{ post.date_created }}</p>
+<p>Text: {{ post.text }}</p>
+<p>Comments</p>
+{% for comment in post.comment_set.all %}
+<p>{{ comment.author }} at {{ comment.date_updated }}</p>
+<p>{{ comment.text }}</p>
+{% endfor %}
+<p>End comments block</p>
+<p>End post</p>
+<br>
+{% endfor %}
 
 </body>
 
