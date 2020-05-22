@@ -15,7 +15,9 @@ class CreatePostView(BaseView):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
-        form = self.form_class(request.POST)
+        a = request.user.has_perm('news.post_no_premoderation')
+        author = User.objects.get(pk=request.user.id)
+        form = self.form_class(request.POST, initial={'author': author})
         if form.is_valid():
             form.save()
             return redirect('main')

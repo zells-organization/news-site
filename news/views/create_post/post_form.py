@@ -15,6 +15,18 @@ class PostForm(ModelForm):
         exclude = ('is_approved', 'author')
 
     def save(self, commit=True):
-        author = User.objects.get(pk=self.request.user.id)
-        self.author = author
-        super(PostForm, self).save()
+        author = self.initial.get('author')
+        is_approved = False
+
+        if author.has_perm('news.post_no_premoderation'):
+            is_approved = True
+
+        post = Post(
+            author=author,
+            title=self.cleaned_data.get('title'),
+            text=self.cleaned_data.get('text'),
+            is_approved=is_approved
+        )
+
+        post.save()
+        return post
