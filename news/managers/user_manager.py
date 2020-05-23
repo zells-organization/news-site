@@ -1,7 +1,7 @@
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import Group
 
-from news.lib import USER_GROUP_NAME, ADMIN_GROUP_NAME, EDITOR_GROUP_NAME
+from news.library import USER_GROUP_NAME, ADMIN_GROUP_NAME, EDITOR_GROUP_NAME
 
 
 class UserManager(BaseUserManager):

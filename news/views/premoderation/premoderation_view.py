@@ -1,10 +1,15 @@
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
+from news.library import premoderate_codename
 from news.models import Post
 from news.views import BaseView
 from django.shortcuts import render, redirect
 
 
-class PremoderationView(BaseView):
+class PremoderationView(PermissionRequiredMixin, BaseView):
     template_name = 'premoderation.html'
+    permission_denied_message = "You don't have permission to access this page"
+    permission_required = [premoderate_codename]
 
     def get(self, request):
         posts = Post.objects.all()
