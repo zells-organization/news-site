@@ -59,18 +59,24 @@
 
 
 {% for post in posts %}
-<p>Post {{ forloop.counter }}</p>
-<p>Author: {{ post.author }}</p>
-<p>At: {{ post.date_created }}</p>
-<p>Text: {{ post.text }}</p>
-<p>Comments</p>
-{% for comment in post.comment_set.all %}
-<p>{{ comment.author }} at {{ comment.date_updated }}</p>
-<p>{{ comment.text }}</p>
-{% endfor %}
-<p>End comments block</p>
-<p>End post</p>
-<br>
+    <p>Post {{ forloop.counter }}</p>
+    <p>Author: {{ post.author }}</p>
+    <p>At: {{ post.date_created }}</p>
+    <p>Text: {{ post.text }}</p>
+    <p>Comments</p>
+    {% for comment in post.comment_set.all %}
+        <p>{{ comment.author }} at {{ comment.date_updated }}</p>
+        <p>{{ comment.text }}</p>
+    {% endfor %}
+    <p>End comments block</p>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="text">
+        <input type="hidden" name="to_post" value="{{ post.id }}">
+        <button type="submit">Submit Comment</button>
+    </form>
+    <p>End post</p>
+    <br>
 {% endfor %}
 
 </body>
