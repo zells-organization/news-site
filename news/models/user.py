@@ -31,6 +31,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         '''
         Returns the first_name plus the last_name, with a space in between.
         '''
+        if self.first_name is '' or self.last_name is '':
+            return self.email
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
 

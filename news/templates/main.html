@@ -19,7 +19,7 @@
             <!-- Author -->
             <p class="lead">
                 by
-                <a href="#">{{ post.author }}</a>
+                <a href="#">{{ post.author.get_full_name }}</a>
             </p>
 
             <hr>
@@ -53,7 +53,7 @@
             <div class="media mb-4">
                 <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
                 <div class="media-body">
-                    <h5 class="mt-0">{{ comment.author }} at {{ comment.date_updated }}</h5>
+                    <h5 class="mt-0">{{ comment.author.get_full_name }} at {{ comment.date_updated }}</h5>
                     {{ comment.text }}
                 </div>
             </div>
