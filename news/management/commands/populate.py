@@ -1,9 +1,9 @@
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
 from django.core.management import BaseCommand
-from news.lib import ADMIN_GROUP_NAME, EDITOR_GROUP_NAME, USER_GROUP_NAME, premoderate_codename
+from news.library import ADMIN_GROUP_NAME, EDITOR_GROUP_NAME, USER_GROUP_NAME, premoderate_codename
 from news.models import Post, User
-from news.lib import fixtures
+from news.library import fixtures
 
 
 class Command(BaseCommand):
