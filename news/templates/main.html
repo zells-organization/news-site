@@ -1,84 +1,69 @@
-{% load static %}
-{% load groupfilter %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
+{% block page_title %}
+<title>News</title>
+{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'main_style.css' %}">
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-            crossorigin="anonymous"></script>
-</head>
+{% block content %}
+<!-- Page Content -->
+<div class="container">
 
-<body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'main' %}">News Blog</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+    <div class="row">
+        {% for post in posts %}
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Click Me!
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                        <a class="dropdown-item" href="{% url 'create-post' %}">Make a post</a>
-                        {% if request.user|group:"Editor" or request.user|group:"Admin" %}
-                        <a class="dropdown-item" href="{% url 'premoderation' %}">Premoderation</a>
-                        <a class="dropdown-item" href="{% url 'admin:index' %}">Admin page</a>
-                        {% endif %}
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
-                    </div>
-                </li>
-            </ul>
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+            <!-- Title -->
+            <h1 class="mt-4">{{ post.title }}</h1>
+
+            <!-- Author -->
+            <p class="lead">
+                by
+                <a href="#">{{ post.author.get_full_name }}</a>
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p>Posted on {{ post.date_created }}</p>
+
+            <hr>
+
+            <!-- Post Content -->
+            {{ post.text }}
+            <hr>
+
+            <!-- Comments Form -->
+            <div class="card my-4">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" name="text"></textarea>
+                        </div>
+                        <input type="hidden" name="to_post" value="{{ post.id }}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            {% for comment in post.comment_set.all %}
+
+            <!-- Single Comment -->
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ comment.author.get_full_name }} at {{ comment.date_updated }}</h5>
+                    {{ comment.text }}
+                </div>
+            </div>
+            {% endfor %}
+<hr>
+
         </div>
+
+        {% endfor %}
+
     </div>
-</nav>
-
-<div class="container text-center">
-    <h1 class="mt-5 text-dark">News Blog</h1>
 </div>
-
-
-{% for post in posts %}
-    <p>Post {{ forloop.counter }}</p>
-    <p>Author: {{ post.author }}</p>
-    <p>At: {{ post.date_created }}</p>
-    <p>Text: {{ post.text }}</p>
-    <p>Comments</p>
-    {% for comment in post.comment_set.all %}
-        <p>{{ comment.author }} at {{ comment.date_updated }}</p>
-        <p>{{ comment.text }}</p>
-    {% endfor %}
-    <p>End comments block</p>
-    <form method="post">
-        {% csrf_token %}
-        <input type="text" name="text">
-        <input type="hidden" name="to_post" value="{{ post.id }}">
-        <button type="submit">Submit Comment</button>
-    </form>
-    <p>End post</p>
-    <br>
-{% endfor %}
-
-</body>
-
-
-</html>
+{% endblock %}
