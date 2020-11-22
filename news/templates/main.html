@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% block page_title %}
+<title>News</title>
+{% endblock %}
+
+{% block content %}
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        {% for post in posts %}
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+            <!-- Title -->
+            <h1 class="mt-4">{{ post.title }}</h1>
+
+            <!-- Author -->
+            <p class="lead">
+                by
+                <a href="#">{{ post.author.get_full_name }}</a>
+            </p>
+
+            <hr>
+
+            <!-- Date/Time -->
+            <p>Posted on {{ post.date_created }}</p>
+
+            <hr>
+
+            <!-- Post Content -->
+            {{ post.text }}
+            <hr>
+
+            <!-- Comments Form -->
+            <div class="card my-4">
+                <h5 class="card-header">Leave a Comment:</h5>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="form-control" rows="3" name="text"></textarea>
+                        </div>
+                        <input type="hidden" name="to_post" value="{{ post.id }}">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            {% for comment in post.comment_set.all %}
+
+            <!-- Single Comment -->
+            <div class="media mb-4">
+                <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                <div class="media-body">
+                    <h5 class="mt-0">{{ comment.author.get_full_name }} at {{ comment.date_updated }}</h5>
+                    {{ comment.text }}
+                </div>
+            </div>
+            {% endfor %}
+<hr>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

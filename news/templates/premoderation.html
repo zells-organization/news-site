@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block page_title %}
+<title>Premoderation</title>
+{% endblock %}
+{% block content %}
+
+    {% for post in posts %}
+    <p>Post {{ forloop.counter }}</p>
+    <p>Author: {{ post.author }}</p>
+    <p>Text: {{ post.text }}</p>
+    <p>Posted: {{ post.is_approved }}</p>
+    <p>End post</p>
+    <form method="post">
+        {% csrf_token %}
+
+        <input type="hidden" name="post_id" value="{{ post.id }}">
+        <input type="submit" name="approve" value="Approve">
+        <input type="submit" name="decline" value="Decline">
+
+    </form>
+    {% endfor %}
+{% endblock %}
