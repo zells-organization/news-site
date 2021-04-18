@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+worker_ready(){
+  celery -A django_celery_example inspect ping
+}
+
+until worker_ready; do
+  >&2 echo 'Celery workers are not available'
+  sleep 1
+done
+>&2 echo 'Celery workers are available'
+
+flower --app=django_celery_example --broker="${CELERY_BROKER}"

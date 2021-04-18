@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+#python manage.py celery_worker'
+celery worker -A django_celery_example --loglevel=info

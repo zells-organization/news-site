@@ -248,3 +248,4 @@ $RECYCLE.BIN/
 
 # End of https://www.gitignore.io/api/django,pycharm,windows,visualstudiocode
 sendgrid.env
+*.env
