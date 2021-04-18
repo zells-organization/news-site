@@ -6,5 +6,7 @@ from .tasks import sample_task
 # Create your views here.
 
 def mail_test(request):
+    print('before')
     result = sample_task.delay()
-    return HttpResponse(f'{result.task_id}')
+    print('after')
+    return HttpResponse(f'{result.id}')

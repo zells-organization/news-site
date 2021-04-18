@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 
 worker_ready(){
-  celery -A django_celery_example inspect ping
+  celery -A news_site inspect ping
 }
 
 until worker_ready; do
@@ -13,4 +13,4 @@ until worker_ready; do
 done
 >&2 echo 'Celery workers are available'
 
-flower --app=django_celery_example --broker="${CELERY_BROKER}"
+flower --app=news_site --broker="${CELERY_BROKER}"
